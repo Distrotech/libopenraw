@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Libopenraw by Distrotech</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Libopenraw</h1>
+          <h2>Mirror of git://anongit.freedesktop.org/libopenraw</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/Distrotech/libopenraw/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/Distrotech/libopenraw/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/Distrotech/libopenraw" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a name="copyright" class="anchor" href="#copyright"><span class="octicon octicon-link"></span></a>Copyright</h1>
+
+<p>libopenraw is Copyright (c) 2005-2013 Hubert Figuiere and
+other contributors. See the respective files.
+It is licensed under LGPLv3 or later. See files COPYING
+and COPYING.LESSER</p>
+
+<h1>
+<a name="prerequistes-to-build" class="anchor" href="#prerequistes-to-build"><span class="octicon octicon-link"></span></a>Prerequistes to build:</h1>
+
+<pre><code>- a C++ compiler (tested on gcc 3.3 and up)
+- libboost 1.33.1 (Boost.Bind, Boost.Smart_pointer, 
+  Boost.String, Boost.Test, Boost.Variant)
+- libjpeg
+- libxml &gt; 2.5.0 (for the test suite)
+- libcurl (option for the test suite bootstrap)
+</code></pre>
+
+<p>If building from the git tree you also need:</p>
+
+<pre><code>- automake/autoconf
+- pkg-config for the associated m4 macros
+</code></pre>
+
+<p>Optional Gnome support</p>
+
+<pre><code>- gdkpixbuf
+</code></pre>
+
+<h1>
+<a name="supported-file-format" class="anchor" href="#supported-file-format"><span class="octicon octicon-link"></span></a>Supported file format:</h1>
+
+<p>Here are the supported file formats. For details per-camera, see
+below:</p>
+
+<pre><code>- Canon CR2
+- Canon CRW (not those coming from CHDK firmware like A610)
+- Nikon NEF
+- Olympus ORF
+- Pentax PEF
+- Epson ERF
+- DNG
+- Sony ARW
+- Minolta MRW
+- Panasonic RAW and RW2
+- Fujifilm RAF
+</code></pre>
+
+<h1>
+<a name="how-to-build" class="anchor" href="#how-to-build"><span class="octicon octicon-link"></span></a>How to build:</h1>
+
+<p>Using automake/autoconf:</p>
+
+<pre><code>$ ./autogen.sh
+$ ./configure --prefix=...
+$ make
+$ make install DESTDIR=...
+</code></pre>
+
+<h1>
+<a name="support-table" class="anchor" href="#support-table"><span class="octicon octicon-link"></span></a>Support table:</h1>
+
+<p>T  Tested and proven to work. (I have a sample.)
+  Y  Yes, it is there. (Untested as I do not have a sample but the format
+     is known to be similar.) Yes, it is for the whole format.
+  N  Not supported.
+  B  Known to be Broken. (Needs to be fixed. I have a sample but further
+     work is required.)
+  X  Not needed.
+  #  Sample file needed.</p>
+
+<pre><code>                      ThNail
+                     /  CFA compressed (as is)
+                     | /  CFA decompress
+                     | | /  Orientation Tag
+                     | | | /  Bayer Type
+                     | | | | /  Type ID
+                     | | | | | /  Active Area (ROI)
+                     | | | | | | /  Color Matrices
+                     | | | | | | | /
+                     | | | | | | | |
+</code></pre>
+
+<p>Canon CR2                Y Y Y Y Y Y Y Y
+ 1000D/Rebel XS          T T T T T T T
+ 1100D/Rebel T3          T T T T T T T
+ 20D                     T T T T T T T
+ 30D                     T T T T T T T
+ 350D/Rebel XT           T T T T T T T
+ 40D                     T T T T T T T
+ 400D                    T T T T T T T
+ 450D                    T T T T T T T
+ 50D                     T T T T T T T
+ 500D                    T T T T T T T
+ 550D                    T T T T T T T
+ 5D                      T T T     T T
+ 5DMarkII                T T T T   T T
+ 5DMarkIII               T T T T   T T
+ 6D
+ 60D                     T T T T T T T
+ 600D                    T T T T T T T
+ 650D/T4i
+ 7D                      T T T     T T
+ 1DMarkII                T T T     T T
+ 1DMarkIII
+ 1DMarkIV                T T T T T T T
+ 1D X
+ EOS-M
+ G9                                T T
+ G10                               T T
+ G11                     T T T     T T
+ G12                     T T T T T T T
+ G15
+ G1X
+ SX1 IS                  # # # # # # #
+ S90                     T T T T T T T
+ S95                     T T T T T T T
+ S100</p>
+
+<p>Canon CRW                Y Y Y Y Y Y N Y
+ 300D                    T T T T T T
+ 10D                     T T T   T T
+ D60                     T T T   T T
+ G1                      T T T   T T
+ G2                      T T T   T T
+ G5                      T T T   T T
+ Pro1                    T T T   T T</p>
+
+<p>Canon CRW CHDK           N N N N N N N N
+(unofficial firmware)
+ A610                    N N N N N N N</p>
+
+<p>Nikon NEF                Y Y Y Y Y Y N Y
+ D1                      T T X X T T
+ D1H                     # # # # # # # #
+ D1X                     T T X X T T
+ D100                    T T T X T T
+ D2H                     T T Y T T T
+ D2X                     T T X T T T
+ D200                              T
+ D3
+ D3S                     T   B     T
+ D3X                     T   B     T
+ D300                    T T T     T
+ D300S                   T   B     T
+ D3000                   T B B T T T
+ D3100                   T T T T T T
+ D3200                   T   B     T
+ D4
+ D40                     T T Y T T T
+ D40X                    T T Y T T T
+ D50                               T
+ D5000                   T   B     T
+ D5100                   T   B     T
+ D5200
+ D60                     # # # # # # # #
+ D600
+ D70                     T T Y T T T
+ D70s                    T T Y T T T
+ D700                              T
+ D7000                   T T T T T T
+ D7100
+ D80                               T
+ D800                              T
+ D800E                             T
+ D90                         B     T
+ J1                      T T B Y Y T
+ J2
+ J3
+ S1
+ V1                      T T B Y Y T
+ V2
+ Coolpix A</p>
+
+<p>Nikon NRW                Y         Y N Y
+ P6000                   T         T   T
+ P7000                   T         T   T
+ P7100                   T             T
+ P7700</p>
+
+<p>Olympus ORF              Y Y B Y Y Y N Y
+ E-1                     T T T   T T
+ E-10                    T B B     T
+ E-3                     T T T   T T
+ E-300                   T T B T T T
+ E-330                   T T N     T
+ E-400                   T B T T T T
+ E-410                   B T T T T T
+ E-500                   T T B T   T
+ E-510                   B T T T T T
+ E-620                   B T T   T T
+ SP-350                  B B X T T T
+ SP-500                  B B X T T T
+ SP-510                  B B X T T T
+ SP-550                  B B X T T T
+ E-P1                    B T T   T T
+ E-P2                    B T T   T T
+ E-P3                    B T T   T T
+ E-PL1                   B T T   T T
+ E-PL2                   B T T   T T
+ E-PL3                   B T T   T T
+ E-PL5
+ E-PM1                   B T T   T T
+ E-PM2
+ E-M5                    B       T T
+ XZ-1                    B T T   T T
+ XZ-2</p>
+
+<p>Adobe DNG                Y Y B Y Y Y Y Y
+ Leica DMR               T T X T T T
+ Leica M8                T T X T T T
+ Leica M9                T T X T T T
+ Leica M-Monochrom       T T X T T T
+ Leica X1                T T T T T T
+ Leica X2
+ Leica S2                T T B T T T
+ Adobe DNG converter     T T B T T T
+ Pentax K10D             T T X T T T T
+ Pentax K200D            T T   T T T T
+ Pentax K30
+ Pentax K-r              T T   T T T T
+ Pentax K-x              T T   T T T T
+ Pentax 645D             T T X T T T T
+ Pentax Q                T T X T T T T
+ Samsung GX-10           T T X T T T
+ Samsung Pro815          T T X T T T
+ Ricoh GR-2              T T X T T T
+ Ricoh GRX               T T X T T T
+ Ricoh GX100</p>
+
+<p>Sony ARW                 Y Y N Y N Y N Y
+ A-100                   T N   T   T
+ A-200                   # # # # # T #
+ A-550                   T T       T
+ A-580
+ A-700                   T T   T   T
+ A-380                   T T       T
+ A-390                   T T       T
+ A-560
+ A-850
+ A-900
+ SLT-A33
+ SLT-A35
+ SLT-A55                 T T       T
+ SLT-A57
+ SLT-A65                 T T       T
+ SLT-A77                 T T       T
+ SLT-A99
+ Nex-3                   T T   T   T
+ Nex-5                   T T       T
+ Nex-5N                  T T       T
+ Nex-6
+ Nex-C3                  T T       T
+ Nex-F3
+ Nex-7
+ RX-1
+ RX-100</p>
+
+<p>Pentax PEF               Y Y N Y Y Y N Y
+ *-ist D                 T T X X T T
+ *-ist DL                T T N     T
+ K10D                    T T N T T T
+ K100D                   # # # # # T #
+ K100D Super             T T N     T
+ K20D                    T T N T   T
+ K-r                               T   T
+ K-x                               T   T
+ K-5                               T   T
+ K-7                               T   T
+ 645D                              T   T</p>
+
+<p>Epson ERF                Y Y Y Y Y Y N Y
+ Epson RD1               T T T T T T   Y
+ Epson RD1s                            Y</p>
+
+<p>Minolta MRW              Y Y B N Y Y N Y
+ A1                      T T T X T     Y
+ A2                      T T T X T     Y
+ Dimage 5                T T X X T T   Y
+ Dimage 7i               T T X X T T   Y
+ Dimage 7Hi              T T X X T T   Y
+ Maxxum 5D               T T T N T     Y
+ Maxxum 7D               T T T N T     Y
+ A200                    </p>
+
+<p>Sony SRF                 N N N N N N N N</p>
+
+<p>Sony SR2                 N N N N N N N N
+ Sony R1</p>
+
+<p>Kodak DCR                N N N N N N N N</p>
+
+<p>Kodak KDC                N N N N N N N N</p>
+
+<p>FujiFilm RAF             Y Y B N N Y N T
+ Finepix S2Pro           T         T
+ Finepix S3Pro           T         T
+ Finepix S5Pro           T         T
+ Finepix S6500Fd         T         T
+ Finepix S5600           T         T
+ Finepix S9500           T         T
+ Finepix X100            T T T     T
+ Finepix F700            T         T
+ Finepix E900            T         T
+ X10                     T         T
+ X100S
+ X20
+ X-Pro1                  T       Y T   N
+ X-E1
+ X-S1                    T         T   N
+ XF1
+ Finepix S200 EXR        T         T</p>
+
+<p>Foveon X3F               N N N N N N N N</p>
+
+<p>Panasonic RAW            Y Y N Y Y Y Y N
+ FZ30                    N T X T   T T
+ FZ50                    N T X T   T T
+ FZ8                     N T B T   T T
+ FZ18                    T T B T   T T
+ L1                      N T X T   T T
+ L10                     T T N T   T T
+ LX2                     N T X T   T T
+ Leica Digilux 2         N T X T   T T
+ Leica DLUX 3            N T X T   T T
+ Leica VLUX 1            N T X T   T T</p>
+
+<p>Panasonic RW2            Y Y N Y Y Y Y N
+ GF1                     T T       T T
+ GF2                     T T       T T
+ GF3
+ GF5
+ GF6
+ GH1                     T T       T T
+ GH2                     T T N     T T
+ GH3
+ G1                      T T       T T
+ G2                      T T       T T
+ G3
+ G5
+ G10                     T T       T T
+ LX3                     T T B     T T
+ LX5                     T T B     T T
+ LX7
+ FZ200
+ FZ28                    T T B     T T</p>
+
+<p>Mamiya MEF               N N N N N N N N
+ Mamiya ZD</p>
+
+<p>Samsung SRW              N N N N N N N N</p>
+
+<h1>
+<a name="test-suite" class="anchor" href="#test-suite"><span class="octicon octicon-link"></span></a>Test suite</h1>
+
+<p>There is a test suite driven by an XML file. It require you to provide
+your own RAW files and configure it.  testsuite/testsuite.xml is an
+example of valid XML configuration file that works on my local
+machine.</p>
+
+<p>TODO2: provide a better description of the test file.</p>
+
+<p>TODO3: fix ordiag to allow outputting a test case in XML.</p>
+        </section>
+
+        <footer>
+          Libopenraw is maintained by <a href="https://github.com/Distrotech">Distrotech</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
